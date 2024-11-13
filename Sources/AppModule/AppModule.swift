@@ -64,3 +64,18 @@ public protocol AnyModuleTypeEntry {
 public protocol AnyModuleTypeLifecycle {
     func onUnload()
 }
+
+public extension AppModuleManager {
+    static func entryView<ModuleType: AnyModuleType>(for module: ModuleType.Type) -> any View where ModuleType: AnyModuleTypeEntry {
+        let name = String(reflecting: ModuleType.self)
+        let holder = AppModuleManager.shared.getInstHolder(for: name)
+        return (holder?.instance as? AnyModuleTypeEntry)?.entryView() ?? EmptyView()
+    }
+    
+    
+    static func entryViewController<ModuleType: AnyModuleType>(for module: ModuleType.Type) -> UIViewController where ModuleType: AnyModuleTypeUIKitEntry {
+        let name = String(reflecting: ModuleType.self)
+        let holder = AppModuleManager.shared.getInstHolder(for: name)
+        return (holder?.instance as? AnyModuleTypeUIKitEntry)?.entryViewController() ?? UIViewController()
+    }
+}

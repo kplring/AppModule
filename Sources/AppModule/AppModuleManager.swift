@@ -23,6 +23,10 @@ public class AppModuleManager {
     
     private var modInstHolders: [String: ModuleInstanceHolder] = [:]
     
+    func getInstHolder(for key: String) -> ModuleInstanceHolder? {
+        modInstHolders[key]
+    }
+    
     private var registeredModules: [AnyModuleType.Type] = []
     
     
